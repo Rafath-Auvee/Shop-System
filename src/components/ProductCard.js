@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
 
         {pathname.includes("cart") && (
           <button
-            className="bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
+            className="bg-red-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
             onClick={() => dispatch(removeProducts(product))}
           >
             Remove
