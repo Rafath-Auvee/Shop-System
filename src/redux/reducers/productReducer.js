@@ -76,3 +76,4 @@ const productReducer = (state = initialState, action) => {
 };
 
 export default productReducer;
+// console.log("🚀 ~ file: productReducer.js:79 ~ productReducer:", productReducer)
