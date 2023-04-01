@@ -1,24 +1,42 @@
-import { ADD_TO_CART, REMOVE_TO_CART } from "./../actionTypes/actionTypes";
+import {
+  ADD_PRODUCT,
+  ADD_TO_CART,
+  PRODUCT_LOADED,
+  REMOVE_FROM_CART,
+  REMOVE_PRODUCT,
+} from "../actionTypes/actionTypes";
+
 const initialState = {
   cart: [],
+  products: [],
 };
 
-const reducers = (state = initialState, action) => {
+const productReducer = (state = initialState, action) => {
   const selectedProduct = state.cart.find(
     (product) => product._id === action.payload._id
   );
 
   switch (action.type) {
+    case ADD_PRODUCT:
+      return {
+        ...state,
+        products: [...state.products, action.payload],
+      };
+    case REMOVE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.filter(
+          (product) => product._id !== action.payload
+        ),
+      };
     case ADD_TO_CART:
       if (selectedProduct) {
-        console.log(
-          "🚀 ~ file: reducers.js:18 ~ reducers ~ selectedProduct:",
-          selectedProduct
-        );
         const newCart = state.cart.filter(
           (product) => product._id !== selectedProduct._id
         );
+
         selectedProduct.quantity = selectedProduct.quantity + 1;
+
         return {
           ...state,
           cart: [...newCart, selectedProduct],
@@ -28,12 +46,8 @@ const reducers = (state = initialState, action) => {
         ...state,
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
       };
-    case REMOVE_TO_CART:
+    case REMOVE_FROM_CART:
       if (selectedProduct.quantity > 1) {
-        console.log(
-          "🚀 ~ file: reducers.js:35 ~ reducers ~ selectedProduct.quantity:",
-          selectedProduct.quantity
-        );
         const newCart = state.cart.filter(
           (product) => product._id !== selectedProduct._id
         );
@@ -50,8 +64,15 @@ const reducers = (state = initialState, action) => {
           (product) => product._id !== action.payload._id
         ),
       };
+
+    case PRODUCT_LOADED:
+      return {
+        ...state,
+        products: action.payload,
+      };
     default:
       return state;
   }
 };
-export default reducers;
+
+export default productReducer;
