@@ -8,6 +8,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const { brands, stock } = filters;
+  console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters)
 
   useEffect(() => {
     fetch(`https://shop-system-react-redux-backend.onrender.com/products`)
@@ -27,7 +28,7 @@ const Home = () => {
     content = products
       .filter((product) => {
         if (stock) {
-          return product.stock === true;
+          return product.status === true;
         }
         return product;
       })
