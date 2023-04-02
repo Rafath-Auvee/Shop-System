@@ -10,10 +10,10 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    toggle: (state, action) => {
-      state.status = !state.status;
+    toggle: (state) => {
+      state.stock = !state.stock;
     },
-    toggleBrand: (state, action) => {
+    toggleBrands: (state, action) => {
       if (!state.brands.includes(action.payload)) {
         state.brands.push(action.payload);
       } else {

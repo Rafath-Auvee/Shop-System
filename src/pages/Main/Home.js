@@ -18,18 +18,16 @@ const Home = () => {
   const activeClass = "text-white bg-indigo-500 border-white";
 
   let content;
-
   if (products.length) {
     content = products.map((product) => (
       <ProductCard key={product.model} product={product} />
     ));
   }
-
   if (products.length && (stock || brands.length)) {
     content = products
       .filter((product) => {
         if (stock) {
-          return product.status === true;
+          return product.stock === true;
         }
         return product;
       })
@@ -39,9 +37,9 @@ const Home = () => {
         }
         return product;
       })
+
       .map((product) => <ProductCard key={product.model} product={product} />);
   }
-
   return (
     <div className="max-w-7xl gap-14 mx-auto my-10">
       <div className="mb-10 flex justify-end gap-5">
