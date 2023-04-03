@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../components/ProductCard";
 import { toggle, toggleBrands } from "../../features/filter/filterSlice.js";
+import { getProducts } from "../../features/product/productSlice.js";
 const apiKey = process.env.URI;
 const Home = () => {
   const filters = useSelector((state) => state.filter);
-  const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const { brands, stock } = filters;
-  console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters)
-
+  console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters);
+  const { products, isLoading } = useSelector((state) => state.products);
   useEffect(() => {
-    fetch(`https://shop-system-react-redux-backend.onrender.com/products`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data));
+    dispatch(getProducts());
   }, []);
 
   const activeClass = "text-white bg-indigo-500 border-white";
 
   let content;
+  
+  if (isLoading) {
+    content = <h1>Loading...</h1>;
+  }
+
   if (products.length) {
     content = products.map((product) => (
       <ProductCard key={product.model} product={product} />
