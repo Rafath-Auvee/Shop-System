@@ -10,6 +10,7 @@ const Home = () => {
   const { brands, stock } = filters;
   console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters);
   const { products, isLoading } = useSelector((state) => state.products);
+
   useEffect(() => {
     dispatch(getProducts());
   }, []);
@@ -17,9 +18,14 @@ const Home = () => {
   const activeClass = "text-white bg-indigo-500 border-white";
 
   let content;
-  
+
   if (isLoading) {
-    content = <h1>Loading...</h1>;
+    content = (
+      <div className="text-center flex flex-col justify-center align-middle justify-items-center">
+        Server is Loading the data <br />{" "}
+        <h1 className="text-red-700 font-extrabold text-7xl">Loading...</h1>
+      </div>
+    );
   }
 
   if (products.length) {

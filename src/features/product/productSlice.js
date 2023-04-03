@@ -27,8 +27,8 @@ const productSlice = createSlice({
       state.products = [];
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.products = action.payload;
+      state.isLoading = true;
+      state.products = [];
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
