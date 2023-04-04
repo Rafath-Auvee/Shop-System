@@ -10,7 +10,7 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async () => {
     const res = await fetch(
-      "https://shop-system-react-redux-backend.onrender.com/products"
+      "https://shop-system-backend.vercel.app/products"
     );
     const data = await res.json();
     return data.data;
