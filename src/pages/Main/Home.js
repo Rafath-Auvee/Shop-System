@@ -8,7 +8,7 @@ const Home = () => {
   const filters = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const { brands, stock } = filters;
-  console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters);
+  // console.log("🚀 ~ file: Home.js:11 ~ Home ~ filters:", filters);
   const { products, isLoading } = useSelector((state) => state.products);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Home = () => {
       </div>
     );
   }
-
+console.log(products);
   if (products.length) {
     content = products.map((product) => (
       <ProductCard key={product.model} product={product} />

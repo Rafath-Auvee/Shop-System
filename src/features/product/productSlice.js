@@ -12,7 +12,9 @@ export const getProducts = createAsyncThunk(
     const res = await fetch(
       "https://shop-system-backend.vercel.app/products"
     );
+    
     const data = await res.json();
+    console.log(data)
     return data.data;
   }
 );
@@ -27,8 +29,8 @@ const productSlice = createSlice({
       state.products = [];
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
-      state.isLoading = true;
-      state.products = [];
+      state.isLoading = false;
+      state.products = action.payload;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
