@@ -3,10 +3,11 @@ import { RouterProvider } from "react-router-dom";
 import store from "./app/store";
 import routes from "./routes/routes";
 // require("dotenv");
-
+import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div>
+      <Toaster />
       <Provider store={store}>
         <RouterProvider router={routes} />
       </Provider>
