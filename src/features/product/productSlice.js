@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchProducts, postProduct } from "./productAPI.js";
+import { deleteProduct } from "./productAPI.js";
 
 const initialState = {
   products: [],
   isLoading: false,
   postSuccess: false,
+  deleteSuccess: false,
   isError: false,
   errorMessage: "",
 };
@@ -24,12 +26,29 @@ export const addProducts = createAsyncThunk(
   }
 );
 
+export const removeProducts = createAsyncThunk(
+  "products/removeProducts",
+  async (data, thunkAPI) => {
+    const products = await deleteProduct(data);
+    thunkAPI.dispatch(removeFromList(data));
+    return products;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     togglePostSuccess: (state) => {
       state.postSuccess = false;
+    },
+    toggleDeleteSuccess: (state) => {
+      state.deleteSuccess = false;
+    },
+    removeFromList: (state, action) => {
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload
+      );
     },
   },
   extraReducers: (builder) => {
@@ -62,8 +81,25 @@ const productSlice = createSlice({
         state.errorMessage = action.error.message;
         state.postSuccess = false;
         state.products = [];
+      })
+      .addCase(removeProducts.pending, (state) => {
+        state.isLoading = true;
+        state.deleteSuccess = false;
+        state.isError = false;
+      })
+      .addCase(removeProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.deleteSuccess = true;
+      })
+      .addCase(removeProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.error.message;
+        state.deleteSuccess = false;
+        state.products = [];
       });
   },
 });
-export const { togglePostSuccess } = productSlice.action;
+export const { removeFromList, togglePostSuccess, toggleDeleteSuccess } =
+  productSlice.actions;
 export default productSlice.reducer;
