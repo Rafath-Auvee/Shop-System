@@ -27,7 +27,7 @@ const Home = () => {
       </div>
     );
   }
-console.log(products);
+// console.log(products);
   if (products.length) {
     content = products.map((product) => (
       <ProductCard key={product.model} product={product} />
